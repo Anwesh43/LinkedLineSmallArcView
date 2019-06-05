@@ -38,6 +38,9 @@ fun Canvas.drawRotLineArc(i : Int, sc1 : Float, sc2 : Float, size : Float, paint
     save()
     rotate(deg * i + rotDeg * sc1.divideScale(i, lines))
     drawLine(0f, 0f, size, 0f, paint)
+    paint.style = Paint.Style.STROKE
+    drawArc(RectF(-size, -size, size, size), 0f, rotDeg * sc2.divideScale(i, lines), true, paint)
+    paint.style = Paint.Style.FILL
     drawArc(RectF(-size, -size, size, size), 0f, rotDeg * sc2.divideScale(i, lines), true, paint)
     restore()
 }
@@ -81,7 +84,7 @@ class LineSmallArcView(ctx : Context) : View(ctx) {
     data class State(var scale : Float = 0f, var dir : Float = 0f, var prevScale : Float = 0f) {
 
         fun update(cb : (Float) -> Unit) {
-            scale += scale.updateValue(dir, lines, 1)
+            scale += scale.updateValue(dir, lines, lines)
             if (Math.abs(scale - prevScale) > 1) {
                 scale = prevScale + dir
                 dir = 0f
