@@ -152,7 +152,7 @@ class LineSmallArcView(ctx : Context) : View(ctx) {
             }
         }
 
-        fun startUpdadting(cb : () -> Unit) {
+        fun startUpdating(cb : () -> Unit) {
             state.startUpdating(cb)
         }
 
@@ -166,6 +166,30 @@ class LineSmallArcView(ctx : Context) : View(ctx) {
             }
             cb()
             return this
+        }
+    }
+
+    data class LineSmallArc(var i : Int) {
+
+        private val root : LSANode = LSANode(0)
+        private var curr : LSANode = root
+        private var dir : Int = 1
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            root.draw(canvas, paint)
+        }
+
+        fun update(cb : (Int, Float) -> Unit) {
+            curr.update {i, scl ->
+                curr = curr.getNext(dir) {
+                    dir *= -1
+                }
+                cb(i, scl)
+            }
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            curr.startUpdating(cb)
         }
     }
 }
