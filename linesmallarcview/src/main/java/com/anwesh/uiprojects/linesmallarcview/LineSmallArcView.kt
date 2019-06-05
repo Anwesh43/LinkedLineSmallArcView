@@ -215,4 +215,13 @@ class LineSmallArcView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : LineSmallArcView {
+            val view : LineSmallArcView = LineSmallArcView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
